@@ -6,7 +6,6 @@ import SurveyList from '../../components/SurveyList';
 import * as SurveyAction from '../../services/survey';
 import SurveyQuestion from '../../components/SurveyQuestion';
 import Notifications from 'react-notify-toast';
-import  SubApp from '../../subapp/SubApp'
 
 class Survey extends Component {
   constructor(props, context) {
@@ -21,7 +20,8 @@ class Survey extends Component {
   }
 
   componentDidMount() {
-    let surveyId = this.props.match.params.id;
+   
+    let surveyId = '001'
     this.setState({ surveyId }); //set the current survey
     if (surveyId) {
       this.props.fetchSurveys().then(() => {
@@ -38,9 +38,10 @@ class Survey extends Component {
     this.setState({ error: 'all questions are necessary' });
   }
   componentWillReceiveProps(nextProps) {
-    let paramId = nextProps.match.params.id;
+    let paramId = '001';
     let { surveyId } = this.state;
     let { currentSurvey } = this.props;
+   
     if (!paramId) this.setState({ surveyId: null }); //
 
     /** check if weather the last survey is equal to current survey if not set the current value */
@@ -68,18 +69,18 @@ class Survey extends Component {
   render() {
     let { surveys, isSuccess, currentSurvey } = this.props;
     let { loading, surveyId, error } = this.state;
+    console.log(currentSurvey, surveyId)
     return (
       <div className="box">
         <div className="container">
           <Notifications />
-          <h3 className="text-center"> Dalia's Survey </h3>
+          <br/>  <br/>  <br/>
+          <h3 className="text-center">  </h3>
           <div className="row">
             {/* Survey List */}
             {loading ? (
               <Loading />
             ) : surveyId && currentSurvey ? (
-            
-              
               <SurveyQuestion
                 survey={currentSurvey}
                 isLoading={loading}
@@ -88,13 +89,8 @@ class Survey extends Component {
                 handleSubmit={this.submitSurvey.bind(this)}
                 isSuccess={isSuccess}
               />
-              
-            
             ) : (
-            <div className="row">
               <SurveyList surveys={surveys} />
-              <SubApp/>
-            </div>
             )}
           </div>
         </div>
